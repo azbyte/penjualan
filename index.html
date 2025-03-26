@@ -1,64 +1,507 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Toko Kelontong Maju Jaya</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        .header { 
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-        }
-        .menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .menu-item {
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .menu-item:hover {
-            background-color: #ddd;
-            transform: scale(1.05);
-        }
-        a { text-decoration: none; color: #333; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Aplikasi Penjualan Toko Kelontong</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #e9ecef;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, #007BFF, #00aaff);
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    nav {
+      background: #343a40;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav a {
+      color: #fff;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: #495057;
+    }
+    .content {
+      padding: 20px;
+    }
+    h2 {
+      color: #007BFF;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #007BFF;
+      padding-bottom: 5px;
+      display: inline-block;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    input[type="submit"],
+    input[type="button"] {
+      background: #007BFF;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    input[type="submit"]:hover,
+    input[type="button"]:hover {
+      background: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #dee2e6;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+    }
+    .invoice {
+      border: 1px solid #007BFF;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #f1f9ff;
+    }
+    .hidden {
+      display: none;
+    }
+    /* Responsive Navigation */
+    @media (max-width: 768px) {
+      nav a {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>TOKO KELONTOG MAJU JAYA</h1>
-        <p>Sistem Manajemen Penjualan</p>
-    </div>
+  <div class="container">
+    <header>
+      <h1>Aplikasi Penjualan Toko Kelontong</h1>
+    </header>
+    <nav>
+      <a href="#" onclick="showSection('home')">Home</a>
+      <a href="#" onclick="showSection('product')">Produk</a>
+      <a href="#" onclick="showSection('customer')">Pelanggan</a>
+      <a href="#" onclick="showSection('transaction')">Transaksi</a>
+      <a href="#" onclick="showSection('stock')">Stok</a>
+      <a href="#" onclick="showSection('customer_report')">Laporan Pelanggan</a>
+      <a href="#" onclick="showSection('search_product')">Cari Produk</a>
+      <a href="#" onclick="showSection('invoice')">Faktur</a>
+      <a href="#" onclick="showSection('rekap_harian')">Rekap Harian</a>
+      <a href="#" onclick="showSection('rekap_bulanan')">Rekap Bulanan</a>
+      <a href="#" onclick="showSection('rekap_tahunan')">Rekap Tahunan</a>
+    </nav>
+    <div class="content">
+      <!-- Home Section -->
+      <div id="home" class="section">
+        <h2>Selamat Datang</h2>
+        <p>Pilih menu di atas untuk mengelola data penjualan, pelanggan, transaksi, dan laporan.</p>
+      </div>
 
-    <div class="menu">
-        <div class="menu-item">
-            <a href="entri_produk.php">📦 Entri Produk</a>
+      <!-- Entri Data Produk -->
+      <div id="product" class="section hidden">
+        <h2>Entri Data Produk</h2>
+        <form id="productForm" onsubmit="addProduct(event)">
+          <div class="form-group">
+            <label>Nama Produk:</label>
+            <input type="text" id="prodName" required>
+          </div>
+          <div class="form-group">
+            <label>Harga:</label>
+            <input type="number" id="prodPrice" required>
+          </div>
+          <div class="form-group">
+            <label>Stok:</label>
+            <input type="number" id="prodStock" required>
+          </div>
+          <input type="submit" value="Simpan Produk">
+        </form>
+        <div id="productList"></div>
+      </div>
+
+      <!-- Entri Data Pelanggan -->
+      <div id="customer" class="section hidden">
+        <h2>Entri Data Pelanggan</h2>
+        <form id="customerForm" onsubmit="addCustomer(event)">
+          <div class="form-group">
+            <label>Nama Pelanggan:</label>
+            <input type="text" id="custName" required>
+          </div>
+          <div class="form-group">
+            <label>Alamat:</label>
+            <input type="text" id="custAddress" required>
+          </div>
+          <input type="submit" value="Simpan Pelanggan">
+        </form>
+        <div id="customerList"></div>
+      </div>
+
+      <!-- Transaksi Penjualan -->
+      <div id="transaction" class="section hidden">
+        <h2>Transaksi Penjualan</h2>
+        <form id="transactionForm" onsubmit="addTransaction(event)">
+          <div class="form-group">
+            <label>Pilih Produk:</label>
+            <select id="transProduct" required></select>
+          </div>
+          <div class="form-group">
+            <label>Pilih Pelanggan:</label>
+            <select id="transCustomer" required></select>
+          </div>
+          <div class="form-group">
+            <label>Jumlah Beli:</label>
+            <input type="number" id="transQuantity" required>
+          </div>
+          <input type="submit" value="Simpan Transaksi">
+        </form>
+        <div id="transactionList"></div>
+      </div>
+
+      <!-- Laporan Stok -->
+      <div id="stock" class="section hidden">
+        <h2>Laporan Stok Barang</h2>
+        <div id="stockList"></div>
+      </div>
+
+      <!-- Laporan Pelanggan -->
+      <div id="customer_report" class="section hidden">
+        <h2>Laporan Data Pelanggan</h2>
+        <div id="reportCustomer"></div>
+      </div>
+
+      <!-- Cari Produk -->
+      <div id="search_product" class="section hidden">
+        <h2>Cari Produk</h2>
+        <div class="form-group">
+          <label>Masukkan Nama Produk:</label>
+          <input type="text" id="searchKeyword">
+          <input type="button" value="Cari" onclick="searchProduct()">
         </div>
-        <div class="menu-item">
-            <a href="entri_pelanggan.php">👥 Entri Pelanggan</a>
-        </div>
-        <div class="menu-item">
-            <a href="transaksi.php">💰 Transaksi Penjualan</a>
-        </div>
-        <div class="menu-item">
-            <a href="laporan_stok.php">📊 Laporan Stok</a>
-        </div>
-        <div class="menu-item">
-            <a href="laporan_pelanggan.php">👥 Laporan Pelanggan</a>
-        </div>
-        <div class="menu-item">
-            <a href="cari_produk.php">🔍 Cari Produk</a>
-        </div>
-        <div class="menu-item">
-            <a href="laporan_penjualan.php">📈 Rekapitulasi Penjualan</a>
-        </div>
+        <div id="searchResult"></div>
+      </div>
+
+      <!-- Faktur Jual -->
+      <div id="invoice" class="section hidden">
+        <h2>Faktur Jual</h2>
+        <div id="invoiceList"></div>
+      </div>
+
+      <!-- Rekap Penjualan Harian -->
+      <div id="rekap_harian" class="section hidden">
+        <h2>Rekap Penjualan Harian</h2>
+        <div id="rekapHarianList"></div>
+      </div>
+
+      <!-- Rekap Penjualan Bulanan -->
+      <div id="rekap_bulanan" class="section hidden">
+        <h2>Rekap Penjualan Bulanan</h2>
+        <div id="rekapBulananList"></div>
+      </div>
+
+      <!-- Rekap Penjualan Tahunan -->
+      <div id="rekap_tahunan" class="section hidden">
+        <h2>Rekap Penjualan Tahunan</h2>
+        <div id="rekapTahunanList"></div>
+      </div>
     </div>
+  </div>
+
+  <script>
+    // Array untuk menyimpan data sementara
+    let products = [];
+    let customers = [];
+    let transactions = [];
+
+    // Fungsi untuk berpindah antar section
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => sec.classList.add('hidden'));
+      document.getElementById(sectionId).classList.remove('hidden');
+      if(sectionId === 'product') renderProducts();
+      if(sectionId === 'customer') renderCustomers();
+      if(sectionId === 'transaction'){
+        renderProductsForSelect();
+        renderCustomersForSelect();
+        renderTransactions();
+      }
+      if(sectionId === 'stock') renderStock();
+      if(sectionId === 'customer_report') renderCustomers();
+      if(sectionId === 'invoice') renderInvoices();
+      if(sectionId === 'rekap_harian') renderRekap('daily');
+      if(sectionId === 'rekap_bulanan') renderRekap('monthly');
+      if(sectionId === 'rekap_tahunan') renderRekap('yearly');
+    }
+
+    // Fungsi entri produk
+    function addProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('prodName').value;
+      const price = parseFloat(document.getElementById('prodPrice').value);
+      const stock = parseInt(document.getElementById('prodStock').value);
+      const product = { id: Date.now(), name, price, stock };
+      products.push(product);
+      document.getElementById('productForm').reset();
+      renderProducts();
+    }
+
+    function renderProducts() {
+      let html = `<table>
+                    <tr><th>ID</th><th>Nama</th><th>Harga</th><th>Stok</th></tr>`;
+      products.forEach(prod => {
+        html += `<tr>
+                  <td>${prod.id}</td>
+                  <td>${prod.name}</td>
+                  <td>${prod.price}</td>
+                  <td>${prod.stock}</td>
+                </tr>`;
+      });
+      html += `</table>`;
+      document.getElementById('productList').innerHTML = html;
+    }
+
+    // Fungsi entri pelanggan
+    function addCustomer(e) {
+      e.preventDefault();
+      const name = document.getElementById('custName').value;
+      const address = document.getElementById('custAddress').value;
+      const customer = { id: Date.now(), name, address };
+      customers.push(customer);
+      document.getElementById('customerForm').reset();
+      renderCustomers();
+    }
+
+    function renderCustomers() {
+      let html = `<table>
+                    <tr><th>ID</th><th>Nama</th><th>Alamat</th></tr>`;
+      customers.forEach(cust => {
+        html += `<tr>
+                  <td>${cust.id}</td>
+                  <td>${cust.name}</td>
+                  <td>${cust.address}</td>
+                </tr>`;
+      });
+      html += `</table>`;
+      document.getElementById('customerList') && (document.getElementById('customerList').innerHTML = html);
+      document.getElementById('reportCustomer') && (document.getElementById('reportCustomer').innerHTML = html);
+    }
+
+    // Fungsi entri transaksi
+    function addTransaction(e) {
+      e.preventDefault();
+      const productId = parseInt(document.getElementById('transProduct').value);
+      const customerId = parseInt(document.getElementById('transCustomer').value);
+      const quantity = parseInt(document.getElementById('transQuantity').value);
+      const date = new Date().toISOString().slice(0, 10);
+      const transaction = { id: Date.now(), productId, customerId, quantity, date };
+      transactions.push(transaction);
+      // Update stok produk
+      products = products.map(prod => {
+        if(prod.id === productId) {
+          prod.stock -= quantity;
+        }
+        return prod;
+      });
+      document.getElementById('transactionForm').reset();
+      renderTransactions();
+    }
+
+    function renderTransactions() {
+      let html = `<table>
+                    <tr><th>ID</th><th>Produk</th><th>Pelanggan</th><th>Jumlah</th><th>Tanggal</th></tr>`;
+      transactions.forEach(trans => {
+        const prod = products.find(p => p.id === trans.productId);
+        const cust = customers.find(c => c.id === trans.customerId);
+        html += `<tr>
+                  <td>${trans.id}</td>
+                  <td>${prod ? prod.name : '-'}</td>
+                  <td>${cust ? cust.name : '-'}</td>
+                  <td>${trans.quantity}</td>
+                  <td>${trans.date}</td>
+                </tr>`;
+      });
+      html += `</table>`;
+      document.getElementById('transactionList').innerHTML = html;
+    }
+
+    // Dropdown untuk transaksi
+    function renderProductsForSelect() {
+      let options = `<option value="">-- Pilih Produk --</option>`;
+      products.forEach(prod => {
+        options += `<option value="${prod.id}">${prod.name} (Stok: ${prod.stock})</option>`;
+      });
+      document.getElementById('transProduct').innerHTML = options;
+    }
+
+    function renderCustomersForSelect() {
+      let options = `<option value="">-- Pilih Pelanggan --</option>`;
+      customers.forEach(cust => {
+        options += `<option value="${cust.id}">${cust.name}</option>`;
+      });
+      document.getElementById('transCustomer').innerHTML = options;
+    }
+
+    // Laporan stok barang
+    function renderStock() {
+      let html = `<table>
+                    <tr><th>ID</th><th>Nama</th><th>Harga</th><th>Stok</th></tr>`;
+      products.forEach(prod => {
+        html += `<tr>
+                  <td>${prod.id}</td>
+                  <td>${prod.name}</td>
+                  <td>${prod.price}</td>
+                  <td>${prod.stock}</td>
+                </tr>`;
+      });
+      html += `</table>`;
+      document.getElementById('stockList').innerHTML = html;
+    }
+
+    // Pencarian produk
+    function searchProduct() {
+      const keyword = document.getElementById('searchKeyword').value.toLowerCase();
+      let html = `<table>
+                    <tr><th>ID</th><th>Nama</th><th>Harga</th><th>Stok</th></tr>`;
+      let found = false;
+      products.forEach(prod => {
+        if(prod.name.toLowerCase().includes(keyword)){
+          html += `<tr>
+                    <td>${prod.id}</td>
+                    <td>${prod.name}</td>
+                    <td>${prod.price}</td>
+                    <td>${prod.stock}</td>
+                  </tr>`;
+          found = true;
+        }
+      });
+      html += `</table>`;
+      if(!found) {
+        html = "<p>Produk tidak ditemukan.</p>";
+      }
+      document.getElementById('searchResult').innerHTML = html;
+    }
+
+    // Faktur jual
+    function renderInvoices() {
+      let html = "";
+      transactions.forEach(trans => {
+        const prod = products.find(p => p.id === trans.productId);
+        const cust = customers.find(c => c.id === trans.customerId);
+        const total = prod ? trans.quantity * prod.price : 0;
+        html += `<div class="invoice">
+                  <h3>Faktur ID: ${trans.id}</h3>
+                  <p>Tanggal: ${trans.date}</p>
+                  <p>Nama Pelanggan: ${cust ? cust.name : '-'}</p>
+                  <p>Produk: ${prod ? prod.name : '-'}</p>
+                  <p>Jumlah: ${trans.quantity}</p>
+                  <p>Harga Satuan: ${prod ? prod.price : '-'}</p>
+                  <p>Total Harga: ${total}</p>
+                </div>`;
+      });
+      if(html === "") {
+        html = "<p>Tidak ada transaksi.</p>";
+      }
+      document.getElementById('invoiceList').innerHTML = html;
+    }
+
+    // Rekap penjualan
+    function renderRekap(period) {
+      const today = new Date();
+      let filtered = [];
+      if(period === 'daily'){
+        const dateStr = today.toISOString().slice(0,10);
+        filtered = transactions.filter(trans => trans.date === dateStr);
+      } else if(period === 'monthly'){
+        const monthStr = today.toISOString().slice(0,7);
+        filtered = transactions.filter(trans => trans.date.slice(0,7) === monthStr);
+      } else if(period === 'yearly'){
+        const yearStr = today.getFullYear().toString();
+        filtered = transactions.filter(trans => trans.date.slice(0,4) === yearStr);
+      }
+      let html = `<table>
+                    <tr><th>ID Transaksi</th><th>Produk</th><th>Pelanggan</th><th>Jumlah</th><th>Tanggal</th></tr>`;
+      filtered.forEach(trans => {
+        const prod = products.find(p => p.id === trans.productId);
+        const cust = customers.find(c => c.id === trans.customerId);
+        html += `<tr>
+                  <td>${trans.id}</td>
+                  <td>${prod ? prod.name : '-'}</td>
+                  <td>${cust ? cust.name : '-'}</td>
+                  <td>${trans.quantity}</td>
+                  <td>${trans.date}</td>
+                </tr>`;
+      });
+      html += `</table>`;
+      if(filtered.length === 0){
+        html = "<p>Tidak ada transaksi untuk periode ini.</p>";
+      }
+      if(period === 'daily'){
+        document.getElementById('rekapHarianList').innerHTML = html;
+      } else if(period === 'monthly'){
+        document.getElementById('rekapBulananList').innerHTML = html;
+      } else if(period === 'yearly'){
+        document.getElementById('rekapTahunanList').innerHTML = html;
+      }
+    }
+
+    // Tampilkan section home saat pertama kali dibuka
+    showSection('home');
+  </script>
 </body>
 </html>
